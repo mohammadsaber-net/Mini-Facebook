@@ -1,7 +1,7 @@
-import { Star } from "lucide-react"
+import {Star } from "lucide-react"
 import {assets} from "../assets/assets.js"
-
-import { SignIn, SignUp } from "@clerk/clerk-react"
+import { SignIn} from "@clerk/clerk-react"
+import { FaFacebook } from "react-icons/fa";
 function Login(){
     return(
         <div>
@@ -9,7 +9,9 @@ function Login(){
                 <img src={assets.bgImage} alt="bgImage" className="absolute top-0 -z-10 left-0 w-full"/>
                 <div className="flex md:flex-col justify-between flex-row">
                     <div className="">
-                        <img src={assets.logo} alt="logo" className="h-6 object-contain sm:h-12"/>
+                        <FaFacebook className="text-blue-600 relative size-8 md:size-12" />
+
+                        {/* <img src={assets.logo} alt="logo" className="h-6 object-contain sm:h-12"/> */}
                     </div>
                     <div className="flex justify-between md:my-auto flex-col">
                         <div>

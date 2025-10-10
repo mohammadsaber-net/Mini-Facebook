@@ -2,19 +2,24 @@ import { LogOut, Menu, X } from "lucide-react"
 import Loading from "../components/Loading"
 import { dummyUserData } from "../assets/assets.js"
 import { useState } from "react"
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import SideBar from "../components/sideBar.jsx"
+import { FaFacebook } from "react-icons/fa"
 
 function LayOut(){
     const user=dummyUserData
+    const navigate=useNavigate()
     const [sideOpen,setSideOpen]=useState()
     return user?(
-        <div className="w-full relative flex h-screen">
+        <div className="flex relative ">
+            <div className="w-full h-10 z-50 flex justify-end sm:justify-center items-center pe-1 sm:pe-0 text-right bg-blue-600 absolute top-0 left-0">
+                <FaFacebook onClick={()=>navigate("/")} className=" cursor-pointer text-white size-8"/>
+            </div>
             <SideBar sideOpen={sideOpen} setSideOpen={setSideOpen} />
-            <div className="ms-6">
+            <div className="bg-gray-100 mt-8 w-screen sm:w-[calc(100vw-200px)]">
                 <Outlet />
             </div>
-            <div className={`sm:hidden absolute top-0 z-50 ${sideOpen?"left-44":" left-0"} transition-all duration-300`}>
+            <div className={`sm:hidden absolute top-3 z-50 ${sideOpen?"text-white left-36":"text-white  left-3"} transition-all duration-300`}>
             {sideOpen?<X onClick={()=>setSideOpen(false)}/>:<Menu  onClick={()=>setSideOpen(true)}/>}
             </div>
         </div>

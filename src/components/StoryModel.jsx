@@ -1,5 +1,6 @@
-import { ArrowLeft, TextIcon, Upload } from 'lucide-react'
+import { ArrowLeft, Sparkle, TextIcon, Upload } from 'lucide-react'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 
 function StoryModel({setShowModel,fetchStories}) {
     const bgColor=["red","blue","gray","green"]
@@ -15,6 +16,9 @@ function StoryModel({setShowModel,fetchStories}) {
             setPreview(urlCreateObjectUrl(file))
 
         }
+    }
+    const createStory=()=>{
+        console.log("created")
     }
   return (
     <div style={{backgroundColor:"rgba(0, 0, 0, 0.26)"}} className='flex items-center justify-center top-0 left-0 bottom-0 right-0 z-20 fixed'>
@@ -58,6 +62,13 @@ function StoryModel({setShowModel,fetchStories}) {
                     <Upload size={18}/>photo/video
                 </label>
         </div>
+        <button onClick={()=>toast.promise(createStory(),{
+            loading:"saving...",
+            success:<p>story added</p>,
+            error:e=><p>{e.message}</p>
+        })} className='flex-cent w-full mt-2 cursor-pointer rounded-lg py-1 gap-2 bg-gradient-to-r from-indigo-500 to-indigo-700 active:scale-95 hover:from-indigo-700 hover:to-indigo-900 text-white'>
+            <Sparkle /> Create Story
+        </button>
       </div>
     </div>
   )

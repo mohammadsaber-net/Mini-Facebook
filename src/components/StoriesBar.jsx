@@ -3,10 +3,12 @@ import { dummyStoriesData } from "../assets/assets.js"
 import { Plus } from "lucide-react"
 import moment from "moment";
 import StoryModel from "./StoryModel.jsx"
+import StoryView from "./storyView.jsx";
 function StoriesBar() {
     const [story,setStory]=useState([])
     const [showModel,setShowModel]=useState(false)
-    const [veiwStory,setveiwStory]=useState(false)
+    const [veiwStory,setveiwStory]=useState(null)
+    console.log(veiwStory)
     const fetchStories=()=>{
         setStory(dummyStoriesData)
     }
@@ -14,9 +16,9 @@ function StoriesBar() {
         fetchStories()
     })
   return (
-    <div className=" overflow-x-auto px-4 w-[calc(100vw-50px)] sm:w-[calc(100vw-300px)] relative lg:max-w-2xl">
-      <div className="flex gap-4pb-5">
-         {/* w-[calc(100vw-240px)]  */}
+    <div className=" overflow-x-auto  w-[calc(100vw-150px)] no-scrollbar sm:w-[calc(100vw-480px)]  min-w-40 relative ">
+      <div className="flex gap-4 pb-5">
+         
         <div onClick={()=>setShowModel(true)} className="min-w-30
         hover:shadow-lg transition-all duration-300 hover:bg-zinc-300 border-dashed cursor-pointer border me-2 rounded-md md:rounded-lg border-indigo-600
         shadow-sm max-w-30">
@@ -30,7 +32,7 @@ function StoriesBar() {
         {story.map((st,index)=>{
             console.log(st.content)
         return(
-            <div key={index} className={`relative rounded-lg bg-gradient-to-r min-w-20 md:min-w-36 overflow-hidden min-h-28 md:min-h-40 p-1 me-0.5 duration-200 cursor-pointer transition-all`}>
+            <div onClick={()=>setveiwStory(st)} key={index} className={`relative rounded-lg bg-gradient-to-r min-w-20 md:min-w-36 overflow-hidden min-h-28 md:min-h-40 p-1 me-0.5 duration-200 cursor-pointer transition-all`}>
                 <img src={st.user.profile_picture} className="absolute z-10 size-8 rounded-full top-2 left-2"/>
                 <p className=" truncate top-10 left-3 z-20 text-white text-xs absolute">
                     {st.content}
@@ -55,6 +57,7 @@ function StoriesBar() {
         )})}
       </div>
       {showModel&& <StoryModel setShowModel={setShowModel} fetchStories={fetchStories}/>}
+      {veiwStory&& <StoryView setveiwStory={setveiwStory} veiwStory={veiwStory}/>}
     </div>
   )
 }
