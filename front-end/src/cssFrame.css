@@ -1,0 +1,5 @@
+.flex-cent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
