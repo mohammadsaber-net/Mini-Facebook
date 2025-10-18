@@ -1,3 +1,4 @@
+import { inngest } from "../inngest/index.js"
 import { Connection } from "../model/Connections.js"
 import { FaceUser } from "../model/FaceUser.js"
 
@@ -6,7 +7,7 @@ export const sendConnectionRequest=async(req,res)=>{
         const {userId}=req.auth()
         const {id}=req.body
         const last24H=new Date(Date.now() - 24*60*60*1000)
-        const connectionRequests=await new Connection.find({
+        const connectionRequests=await Connection.find({
             from_user_id:userId,
             createdAt:{$gt:last24H}
         })
@@ -23,9 +24,13 @@ export const sendConnectionRequest=async(req,res)=>{
                 ]
             })
         if(!connection){
-            await Connection.create({
+            const newConnection=await Connection.create({
                 from_user_id:userId,
                 to_user_id:id
+            })
+            await inngest.send({
+                name:"app/connection-request",
+                data:{connectionId:newConnection._id}
             })
             return res.status(200).json({success:true,message:"connection request sent successfully"})
         }else if(connection && connection.status==="accepted"){

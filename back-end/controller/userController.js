@@ -2,6 +2,7 @@
 import {imagekit} from "../configs/imagekit.js"
 import fs from "fs"
 import { FaceUser } from "../model/FaceUser.js"
+import { Post } from "../model/posts.js"
 export const getUserData=async(req,res)=>{
     try {
         const {userId}=req.auth()
@@ -50,7 +51,7 @@ export const updateUserData=async(req,res)=>{
                 transformation:[
                     {quality:"auto"},
                     {format:"webp"},
-                    {width:"512"},
+                    {width:"1280"},
                 ]
             })
             updatedData.profile_picture=url
@@ -154,6 +155,23 @@ export const unFollowUser=async(req,res)=>{
         success:true,
         message:"now you are unfollowing "+ toUser.username,
     })
+    } catch (error) {
+        res.status(500).json({
+        success:false,
+        message:error.message
+    }) 
+    }
+}
+export const getUserProfile=async(req,res)=>{
+    try {
+        const {userId}=req.auth()
+        const profile=await FaceUser.findById(userId).populate("followers following connections")
+        const posts=await Post.find({user:userId}).populate("likes_count")
+        res.status(200).json({
+            success:true,
+            profile,
+            posts
+        })
     } catch (error) {
         res.status(500).json({
         success:false,
